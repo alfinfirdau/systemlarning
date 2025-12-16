@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/login_info_screen.dart';
 import 'screens/main_entry.dart';
+import 'screens/splash_screen.dart';
 import 'core/app_colors.dart';
 
 void main() {
@@ -21,8 +22,9 @@ class MyApp extends StatelessWidget {
         // Use Material 3 true as per modern standard
         useMaterial3: true,
       ),
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
+        '/splash': (context) => const SplashScreen(),
         '/': (context) => const LoginInfoScreen(),
         '/home': (context) => const MainEntryScreen(),
       },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
 import 'course_detail_screen.dart';
+import 'home_screen.dart';
 
 class MainEntryScreen extends StatefulWidget {
   const MainEntryScreen({super.key});
@@ -10,10 +11,10 @@ class MainEntryScreen extends StatefulWidget {
 }
 
 class _MainEntryScreenState extends State<MainEntryScreen> {
-  int _currentIndex = 1; // Default to "Kelas Saya" which shows Course Detail for demo
+  int _currentIndex = 0; // Default to Home
 
   final List<Widget> _pages = [
-    const Center(child: Text("Home Placeholder")), // Home
+    const HomeScreen(), // Home
     const CourseDetailScreen(), // Kelas Saya
     const Center(child: Text("Notifikasi Placeholder")), // Notifikasi
   ];

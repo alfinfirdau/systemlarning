@@ -13,69 +13,167 @@ class LoginInfoScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _LanguageButton(label: 'ID', isSelected: true),
-            const SizedBox(width: 20),
-            _LanguageButton(label: 'EN', isSelected: false),
-          ],
+        // Logo in AppBar or just Title? Let's use the Logo Text
+        title: const Text(
+          "ceLoe", 
+          style: TextStyle(
+            color: AppColors.primaryRed,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            letterSpacing: -1,
+          ),
         ),
+        actions: [
+          Row(
+            children: [
+              _LanguageButton(label: 'ID', isSelected: true),
+              const SizedBox(width: 8),
+              _LanguageButton(label: 'EN', isSelected: false),
+              const SizedBox(width: 16),
+            ],
+          )
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Access restricted only for Lecturer and Student of Telkom University",
-              style: AppTextStyles.bodyText,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "Login only using your Microsoft Office 365 Account by following these format :",
-              style: AppTextStyles.bodyText,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "Username (iGracias Account) followed with \"@365.telkomuniversity.ac.id\"\nPassword (SSO / iGracias Account) on Password Field.",
-              style: AppTextStyles.bodyText,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "Failure upon Authentication could be possibly you have not yet change your password into \"Strong Password\".\nMake sure to change your Password only in iGracias.",
-              style: AppTextStyles.bodyText,
-            ),
-            const SizedBox(height: 30),
-            Text(
-              "For further Information, please contact CeLOE Service Helpdesk :",
-              style: AppTextStyles.bodyText,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "mail : infoceloe@telkomuniversity.ac.id\nwhatsapp : +62 821-1666-3563",
-              style: AppTextStyles.bodyText,
-            ),
-            const SizedBox(height: 40),
-            // Placeholder for login inputs since the screenshot doesn't explicitly show them but implies them. 
-            // However, the screenshot looks like a "Help" or "Info" overlay. 
-            // I will add a button to navigate to the "Main App" for demo purposes.
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryRed,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              // Hero Section / Illustration could go here
+              Center(
+                child: Container(
+                  height: 150,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColors.lightGrey,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                   child: const Icon(Icons.school_rounded, size: 64, color: AppColors.primaryRed),
                 ),
-                onPressed: () {
-                   Navigator.pushReplacementNamed(context, '/home');
-                },
-                child: Text("Simulate Login (Demo)", style: AppTextStyles.heading3.copyWith(color: Colors.white)),
               ),
-            ),
-          ],
+              const SizedBox(height: 32),
+              
+              const Text(
+                "Welcome to CeLOE LMS",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textBlack,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Access restricted to Lecturers and Students of Telkom University.",
+                style: AppTextStyles.bodyText.copyWith(color: AppColors.textGrey, height: 1.5),
+              ),
+              
+              const SizedBox(height: 32),
+              
+              const _InfoSection(
+                title: "Login Instructions",
+                content: "Use your Microsoft Office 365 Account:\nUsername: iGracias Account followed by \"@365.telkomuniversity.ac.id\"\nPassword: SSO / iGracias Account Password.",
+                icon: Icons.login_rounded,
+              ),
+
+              const SizedBox(height: 20),
+
+              const _InfoSection(
+                title: "Troubleshooting",
+                content: "Authentication failure? Ensure you have changed your password to a \"Strong Password\" in iGracias.",
+                icon: Icons.lock_reset_rounded,
+              ),
+
+              const SizedBox(height: 20),
+
+              const _InfoSection(
+                title: "Helpdesk",
+                content: "Email: infoceloe@telkomuniversity.ac.id\nWhatsApp: +62 821-1666-3563",
+                icon: Icons.support_agent_rounded,
+              ),
+
+              const SizedBox(height: 40),
+              
+              SizedBox(
+                width: double.infinity,
+                height: 54,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryRed,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 2,
+                  ),
+                  onPressed: () {
+                     Navigator.pushReplacementNamed(context, '/home');
+                  },
+                  child: const Text(
+                    "Login with Office 365", 
+                    style: TextStyle(
+                      fontSize: 16, 
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _InfoSection extends StatelessWidget {
+  final String title;
+  final String content;
+  final IconData icon;
+
+  const _InfoSection({
+    required this.title,
+    required this.content,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: AppColors.primaryRed.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, color: AppColors.primaryRed, size: 20),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: AppColors.textBlack,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                content,
+                style: AppTextStyles.bodyText.copyWith(fontSize: 14),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -88,23 +186,26 @@ class _LanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (label == 'ID')
-           // Flag placeholder
-           Container(width: 40, height: 25, color: Colors.red), // Simple representation
-        if (label == 'EN')
-           // Flag placeholder
-           Container(width: 40, height: 25, color: Colors.blue), // Simple representation
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: AppTextStyles.heading3.copyWith(
-            decoration: isSelected ? TextDecoration.underline : TextDecoration.none,
-             decorationThickness: 4,
+    return GestureDetector(
+      onTap: () {}, // Handle language switch
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primaryRed : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? AppColors.primaryRed : Colors.grey.shade300,
           ),
         ),
-      ],
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.white : AppColors.textGrey,
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+        ),
+      ),
     );
   }
 }

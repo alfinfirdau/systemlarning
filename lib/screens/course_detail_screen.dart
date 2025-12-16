@@ -64,9 +64,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
              color: AppColors.lightGrey,
              child: TabBar(
               controller: _tabController,
-              labelColor: AppColors.textBlack,
+              labelColor: AppColors.primaryRed,
               unselectedLabelColor: AppColors.textGrey,
-              indicatorColor: AppColors.textBlack,
+              indicatorColor: AppColors.primaryRed,
               indicatorWeight: 3,
               tabs: const [
                 Tab(text: "Lampiran Materi"),
