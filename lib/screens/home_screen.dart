@@ -10,78 +10,102 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=12'), // Placeholder user image
-              radius: 20,
-            ),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Hello, Mahasiswa!", style: AppTextStyles.heading3.copyWith(fontSize: 16)),
-                const Text("S1 Teknik Informatika", style: TextStyle(fontSize: 12, color: Colors.grey)),
-              ],
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search, color: AppColors.textBlack),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.message_outlined, color: AppColors.textBlack),
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Banner / Announcement
+            // Custom Header
             Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.primaryRed,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primaryRed.withOpacity(0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
+              padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
+              decoration: const BoxDecoration(
+                color: Color(0xFFC62828), // Deep Red
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(24),
+                  bottomRight: Radius.circular(24),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                   Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: const [
+                       Text("Hallo,", style: TextStyle(color: Colors.white, fontSize: 14)),
+                       SizedBox(height: 4),
+                       Text(
+                         "DANDY CANDRA PRATAMA", 
+                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)
+                       ),
+                     ],
+                   ),
+                   Container(
+                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                     decoration: BoxDecoration(
+                       color: Colors.white.withOpacity(0.2),
+                       borderRadius: BorderRadius.circular(20),
+                       border: Border.all(color: Colors.white.withOpacity(0.5)),
+                     ),
+                     child: Row(
+                       children: const [
+                          Text("MAHASISWA", style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                          SizedBox(width: 8),
+                          Icon(Icons.person_outline, color: Colors.white, size: 16),
+                       ],
+                     ),
+                   )
                 ],
               ),
+            ),
+            
+            const SizedBox(height: 24),
+            
+            // Tugas Yang Akan Datang
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Pengumuman Akademik",
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    "Jadwal Pengisian KRS Semester Ganjil 2024/2025 telah dibuka.",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: AppColors.primaryRed,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      minimumSize: const Size(100, 36),
+                  const Text("Tugas Yang Akan Datang", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 12),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFB71C1C), // Darker Red Card
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                         BoxShadow(
+                           color: Colors.red.withOpacity(0.3),
+                           blurRadius: 10,
+                           offset: const Offset(0, 4),
+                         )
+                      ]
                     ),
-                    child: const Text("Lihat Detail"),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "DESAIN ANTARMUKA & PENGALAMAN PENGGUNA",
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          "Tugas 01 - UID Android Mobile Game",
+                          style: TextStyle(color: Colors.white70, fontSize: 12),
+                        ),
+                        const SizedBox(height: 20),
+                        
+                        Center(
+                          child: Column(
+                            children: const [
+                              Text("Waktu Pengumpulan", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                              SizedBox(height: 4),
+                              Text("Jumat 26 Februari, 23:59 WIB", style: TextStyle(color: Colors.white70, fontSize: 12)),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -89,157 +113,163 @@ class HomeScreen extends StatelessWidget {
             
             const SizedBox(height: 24),
             
-            // Categories / Stats
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildStatCard(Icons.book, "6", "Kelas"),
-                _buildStatCard(Icons.task, "12", "Tugas"),
-                _buildStatCard(Icons.quiz, "3", "Kuis"),
-                _buildStatCard(Icons.star, "3.55", "IPK"),
-              ],
-            ),
-
-            const SizedBox(height: 24),
-
-            // Course List Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Kelas Saya", style: AppTextStyles.heading2),
-                TextButton(onPressed: () {}, child: const Text("Lihat Semua")),
-              ],
-            ),
-            
-            const SizedBox(height: 10),
-
-            // Course Cards
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CourseDetailScreen()),
-                );
-              },
-              child: _buildCourseCard(
-                title: "Konsep User Interface Design",
-                code: "CSH3L3",
-                lecturer: "Dodi Wisnu Wardana",
-                progress: 0.75,
-                color: Colors.blueAccent,
+             // Pengumuman
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: [
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       const Text("Pengumuman Terakhir", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                       TextButton(onPressed: (){}, child: const Text("Lihat Semua", style: TextStyle(fontSize: 12))),
+                     ],
+                   ),
+                   const Align(
+                     alignment: Alignment.centerLeft,
+                     child: Text("Maintenance Pra UAS Semester Genap 2020/2021", style: TextStyle(fontSize: 12, color: Colors.black87)),
+                   ),
+                   const SizedBox(height: 12),
+                   Container(
+                     height: 140,
+                     width: double.infinity,
+                     decoration: BoxDecoration(
+                       color: Colors.blue.shade50, // Placeholder color
+                       borderRadius: BorderRadius.circular(12),
+                       image: const DecorationImage(
+                         image: NetworkImage("https://via.placeholder.com/600x300"), // Placeholder
+                         fit: BoxFit.cover,
+                       ),
+                     ),
+                   ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            _buildCourseCard(
-              title: "Pemrograman Berorientasi Objek",
-              code: "CSH2A3",
-              lecturer: "Rina Puji Astuti",
-              progress: 0.4,
-              color: Colors.orangeAccent,
+            
+            const SizedBox(height: 24),
+            
+            // Progres Kelas
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: const Text("Progres Kelas", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ),
-            const SizedBox(height: 16),
-            _buildCourseCard(
-              title: "Algoritma dan Struktur Data",
-              code: "CSH1B4",
-              lecturer: "Budi Santoso",
-              progress: 0.9,
-              color: Colors.purpleAccent,
+            const SizedBox(height: 12),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: [
+                  _buildCourseProgressItem(
+                    context,
+                    title: "DESAIN ANTARMUKA & PENGALAMAN PENGGUNA",
+                    code: "D4SM-42-03 [ADY]",
+                    progress: 0.69,
+                    color: Colors.orange,
+                    iconLabel: "ui UX",
+                  ),
+                  _buildCourseProgressItem(
+                    context,
+                    title: "KEWARGANEGARAAN",
+                    code: "D4SM-41-GAB1 [BBO]. JUMAT 2",
+                    progress: 0.65,
+                    color: Colors.red,
+                    iconLabel: "PKn", // Placeholder logic
+                  ),
+                   _buildCourseProgressItem(
+                    context,
+                    title: "SISTEM OPERASI",
+                    code: "D4SM-44-02 [DDS]",
+                    progress: 0.90,
+                    color: Colors.blue,
+                    iconLabel: "OS",
+                  ),
+                ],
+              ),
             ),
             
-             // Bottom spacer
-            const SizedBox(height: 80),
+            const SizedBox(height: 40),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildStatCard(IconData icon, String value, String label) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade200),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade100,
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              )
-            ],
-          ),
-          child: Icon(icon, color: AppColors.primaryRed),
-        ),
-        const SizedBox(height: 8),
-        Text(value, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-      ],
-    );
-  }
-
-  Widget _buildCourseCard({
+  Widget _buildCourseProgressItem(BuildContext context, {
     required String title,
     required String code,
-    required String lecturer,
     required double progress,
     required Color color,
+    required String iconLabel,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade100,
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          )
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(12),
+    return GestureDetector(
+      onTap: () {
+         // Link specific course to Detail
+         Navigator.push(context, MaterialPageRoute(builder: (c) => const CourseDetailScreen()));
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          // Simple shadow
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.05),
+              blurRadius: 5,
+              offset: const Offset(0, 2),
+            )
+          ]
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Thumbnail
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(iconLabel, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 18)),
+              ),
+              // Use real images if available
             ),
-            child: Icon(Icons.class_, color: color),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                const SizedBox(height: 4),
-                Text("$code • $lecturer", style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                const SizedBox(height: 12),
-                LinearProgressIndicator(
-                  value: progress,
-                  backgroundColor: Colors.grey.shade100,
-                  valueColor: AlwaysStoppedAnimation<Color>(color),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                const SizedBox(height: 4),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    "${(progress * 100).toInt()}% Completed",
-                    style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.bold),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("2021/2", style: TextStyle(fontSize: 10, color: Colors.grey)),
+                  const SizedBox(height: 4),
+                  Text(
+                    title, 
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-              ],
+                  const SizedBox(height: 4),
+                  Text(code, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                  const SizedBox(height: 12),
+                  // Progress Bar
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      minHeight: 8,
+                      backgroundColor: Colors.grey.shade200,
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFC62828)),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text("${(progress * 100).toInt()}% Selesai", style: const TextStyle(fontSize: 10, color: Colors.black54)),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
