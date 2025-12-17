@@ -140,7 +140,9 @@ class QuizReviewScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/quiz_attempt');
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFF5F5F5),
                         foregroundColor: Colors.black,
