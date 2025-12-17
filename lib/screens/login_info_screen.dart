@@ -107,7 +107,7 @@ class LoginInfoScreen extends StatelessWidget {
                     elevation: 2,
                   ),
                   onPressed: () {
-                     Navigator.pushReplacementNamed(context, '/home');
+                     Navigator.pushNamed(context, '/login');
                   },
                   child: const Text(
                     "Login with Office 365", 

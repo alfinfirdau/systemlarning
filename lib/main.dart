@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/login_info_screen.dart';
+import 'screens/login_screen.dart';
 import 'screens/main_entry.dart';
 import 'screens/splash_screen.dart';
 import 'core/app_colors.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/splash': (context) => const SplashScreen(),
         '/': (context) => const LoginInfoScreen(),
         '/home': (context) => const MainEntryScreen(),
+        '/login': (context) => const LoginScreen(),
       },
     );
   }
