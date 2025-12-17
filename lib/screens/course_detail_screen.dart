@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
-import '../core/text_styles.dart';
-import '../widgets/assignment_card.dart';
+import '../widgets/task_card.dart';
 import '../widgets/material_item.dart';
-import 'assignment_detail_screen.dart';
+import '../widgets/topic_detail_bottom_sheet.dart';
 import 'video_player_screen.dart';
 
 class CourseDetailScreen extends StatefulWidget {
@@ -19,7 +18,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 1); // Default to Tugas tab as per screenshot context
   }
 
   @override
@@ -31,140 +30,116 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F5F5), // Light background
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: const Color(0xFFC62828), // Deep Red
         elevation: 0,
-        leading: const BackButton(color: Colors.black),
+        leading: const BackButton(color: Colors.white),
         title: const Text(
-          "", // Empty title in AppBar as per design it seems local header
-          style: TextStyle(color: Colors.black), 
+          "DESAIN ANTARMUKA & PENGALAMAN\nPENGGUNA D4SM-42-03 [ADY]",
+          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+          maxLines: 2,
         ),
-        actions: [
-             // Add a 3-dot menu or similar if needed?
-        ],
+        toolbarHeight: 80, // Taller AppBar for 2-line title
       ),
       body: Column(
         children: [
-          // Content Header
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                 Center(
-                   child: Text(
-                    "Konsep User Interface Design",
-                    style: AppTextStyles.heading2.copyWith(fontSize: 20),
-                    textAlign: TextAlign.center,
-                                   ),
-                 ),
-                const SizedBox(height: 24),
-                
-                Text("Deskripsi", style: AppTextStyles.heading3),
-                const SizedBox(height: 8),
-                Text(
-                  "Konsep dasar User Interface Design akan dipelajari bagaimana membangun sebuah Interaction Design pada antarmuka. Interaction ini sangat penting untuk aplikasi berkomunikasi dengan pengguna. Lalu dipelajari juga poin-poin penting pada interaction design seperti visibility, feedback, limitation, consistency dan affordance. Dan terakhir materi conceptual dan perceptual design interaction akan memberikan gambaran bagaimana bentuk dari Interaction.",
-                  style: AppTextStyles.bodyText.copyWith(color: AppColors.textGrey, height: 1.5),
-                ),
-              ],
-            ),
-          ),
-          
-          const SizedBox(height: 24),
-
-          // Custom Tab Bar
+          // Tab Bar Container
           Container(
-             color: AppColors.lightGrey,
-             child: TabBar(
+            color: Colors.white,
+            child: TabBar(
               controller: _tabController,
-              labelColor: AppColors.textBlack,
-              unselectedLabelColor: AppColors.textGrey,
-              indicatorColor: AppColors.textBlack,
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Colors.black,
               indicatorWeight: 3,
               labelStyle: const TextStyle(fontWeight: FontWeight.bold),
               tabs: const [
-                Tab(text: "Lampiran Materi"),
-                Tab(text: "Tugas dan Kuis"),
+                Tab(text: "Materi"),
+                Tab(text: "Tugas Dan Kuis"),
               ],
             ),
           ),
 
           // Tab View
           Expanded(
-            child: Container(
-              color: const Color(0xFFF9F9F9), // Light background for list
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  // Tab 1: Lampiran Materi
-                  ListView(
-                     padding: const EdgeInsets.all(20),
-                     children: [
-                       MaterialItem(
-                         title: "Zoom Meeting Syncronous",
-                         icon: Icons.link,
-                         isCompleted: true,
-                       ),
-                       MaterialItem(
-                         title: "Elemen-elemen Antarmuka Pengguna",
-                         icon: Icons.description_outlined,
-                         isCompleted: true,
-                       ),
-                       MaterialItem(
-                         title: "UID Guidelines and Principles",
-                         icon: Icons.description_outlined,
-                         isCompleted: true,
-                       ),
-                       MaterialItem(
-                         title: "User Profile",
-                         icon: Icons.description_outlined,
-                         isCompleted: true,
-                       ),
-                       MaterialItem(
-                         title: "Principles of User Interface DesignURL",
-                         icon: Icons.link,
-                         isCompleted: true,
-                       ),
-                       MaterialItem(
-                         title: "Video - User Interface Design For Beginner",
-                         icon: Icons.play_circle_outline,
-                         isCompleted: false, // Red/Black play icon in screenshot implies different state? Button? will use standard
-                         onTap: () {
-                           Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const VideoPlayerScreen()),
-                          );
-                         },
-                       ),
-                     ],
-                  ),
-  
-                  // Tab 2: Tugas dan Kuis
-                  ListView(
-                    padding: const EdgeInsets.all(16),
-                    children: const [
-                      AssignmentCard(
-                        title: "Quiz Review 01",
-                        description: "Silahkan kerjakan kuis ini dalam waktu 15 menit sebagai nilai pertama komponen kuis.",
-                        deadline: "Deadline: 26 Feb 2021",
-                        isQuiz: true,
-                        isCompleted: true,
-                        onTap: () {
-                          Navigator.pushNamed(context, '/quiz_review');
-                        },
-                      ),
-                      AssignmentCard(
-                        title: "Tugas 01",
-                        description: "Buatlah desain tampilan aplikasi.",
-                        deadline: "Deadline: 28 Feb 2021",
-                        isQuiz: false,
-                        isCompleted: true, 
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // Tab 1: Materi (Reused existing content style)
+                ListView(
+                   padding: const EdgeInsets.all(20),
+                   children: [
+                     MaterialItem(
+                       title: "Pengantar User Interface Design",
+                       icon: Icons.book,
+                       isCompleted: false, // Not completed yet
+                       onTap: () {
+                         showModalBottomSheet(
+                           context: context,
+                           isScrollControlled: true,
+                           shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                           ),
+                           builder: (context) => const TopicDetailBottomSheet(),
+                         );
+                       },
+                     ),
+                     MaterialItem(
+                       title: "Zoom Meeting Syncronous",
+                       icon: Icons.link,
+                       isCompleted: true,
+                     ),
+                     MaterialItem(
+                       title: "Elemen-elemen Antarmuka Pengguna",
+                       icon: Icons.description_outlined,
+                       isCompleted: true,
+                     ),
+                      MaterialItem(
+                       title: "Video - User Interface Design For Beginner",
+                       icon: Icons.play_circle_outline,
+                       isCompleted: false,
+                       onTap: () {
+                         Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const VideoPlayerScreen()),
+                        );
+                       },
+                     ),
+                   ],
+                ),
+
+                // Tab 2: Tugas Dan Kuis (New Task Cards)
+                ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                    TaskCard(
+                      type: "QUIZ",
+                      title: "Quiz Review 01",
+                      deadline: "26 Februari 2021 23:59 WIB",
+                      icon: Icons.quiz_outlined,
+                      isCompleted: true,
+                      onTap: () {
+                        Navigator.pushNamed(context, '/quiz_review');
+                      },
+                    ),
+                    TaskCard(
+                      type: "Tugas",
+                      title: "Tugas 01 - UID Android Mobile Game",
+                      deadline: "26 Februari 2021 23:59 WIB",
+                      icon: Icons.assignment_outlined,
+                      isCompleted: false, // Grey check in image
+                    ),
+                    TaskCard(
+                      type: "Pertemuan 3",
+                      title: "Kuis - Assessment 2",
+                      deadline: "26 Februari 2021 23:59 WIB",
+                      icon: Icons.quiz_outlined,
+                      isCompleted: true,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
