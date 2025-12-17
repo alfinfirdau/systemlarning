@@ -10,8 +10,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController(text: "mahasiswa@365.telkomuniversity.ac.id");
+  final TextEditingController _passwordController = TextEditingController(text: "password123");
 
   @override
   void dispose() {
@@ -166,7 +166,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: Implement login logic
+                        // Mock Login Logic
+                        if (_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
+                           Navigator.pushReplacementNamed(context, '/home');
+                        } else {
+                          // Allow empty for testing convenience, or show snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Please enter any email and password to login (Demo mode)")),
+                          );
+                          // For now, let's just let them in if they really want, or enforce non-empty
+                          // Enforcing non-empty is better for "realism"
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryRed,
