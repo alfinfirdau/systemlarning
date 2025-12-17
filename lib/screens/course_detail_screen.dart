@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
 import '../core/text_styles.dart';
 import '../widgets/assignment_card.dart';
+import '../widgets/material_item.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   const CourseDetailScreen({super.key});
@@ -33,41 +34,53 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
         backgroundColor: Colors.white,
         elevation: 0,
         leading: const BackButton(color: Colors.black),
-        title: Text(
-          "Konsep User Interface Design",
-          style: AppTextStyles.heading2,
+        title: const Text(
+          "", // Empty title in AppBar as per design it seems local header
+          style: TextStyle(color: Colors.black), 
         ),
-        centerTitle: true,
+        actions: [
+             // Add a 3-dot menu or similar if needed?
+        ],
       ),
       body: Column(
         children: [
-          // Description Section
+          // Content Header
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                 Center(
+                   child: Text(
+                    "Konsep User Interface Design",
+                    style: AppTextStyles.heading2.copyWith(fontSize: 20),
+                    textAlign: TextAlign.center,
+                                   ),
+                 ),
+                const SizedBox(height: 24),
+                
                 Text("Deskripsi", style: AppTextStyles.heading3),
                 const SizedBox(height: 8),
                 Text(
-                  "Konsep dasar User Interface Design akan dipelajari bagaimana membangun sebuah Interaction Design pada antarmuka. Interaction ini sangat penting untuk aplikasi berkomunikasi dengan pengguna...",
-                  style: AppTextStyles.bodyText.copyWith(color: AppColors.textGrey),
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
+                  "Konsep dasar User Interface Design akan dipelajari bagaimana membangun sebuah Interaction Design pada antarmuka. Interaction ini sangat penting untuk aplikasi berkomunikasi dengan pengguna. Lalu dipelajari juga poin-poin penting pada interaction design seperti visibility, feedback, limitation, consistency dan affordance. Dan terakhir materi conceptual dan perceptual design interaction akan memberikan gambaran bagaimana bentuk dari Interaction.",
+                  style: AppTextStyles.bodyText.copyWith(color: AppColors.textGrey, height: 1.5),
                 ),
               ],
             ),
           ),
           
+          const SizedBox(height: 24),
+
           // Custom Tab Bar
           Container(
              color: AppColors.lightGrey,
              child: TabBar(
               controller: _tabController,
-              labelColor: AppColors.primaryRed,
+              labelColor: AppColors.textBlack,
               unselectedLabelColor: AppColors.textGrey,
-              indicatorColor: AppColors.primaryRed,
+              indicatorColor: AppColors.textBlack,
               indicatorWeight: 3,
+              labelStyle: const TextStyle(fontWeight: FontWeight.bold),
               tabs: const [
                 Tab(text: "Lampiran Materi"),
                 Tab(text: "Tugas dan Kuis"),
@@ -77,59 +90,65 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
 
           // Tab View
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                // Tab 1: Lampiran Materi
-                ListView(
-                   padding: const EdgeInsets.all(20),
-                   children: [
-                     // Empty state / illustration matching screenshot 3
-                     Center(
-                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                           const SizedBox(height: 40),
-                           const Icon(Icons.person_off_rounded, size: 100, color: Colors.grey), // Placeholder for illustration
-                           const SizedBox(height: 20),
-                           Text("Tidak Ada Tugas Dan Kuis Hari Ini", style: AppTextStyles.heading2),
-                           // Note: Screenshot actually says this for empty assignment state maybe? 
-                           // Or "Materi" might be just text or a list of PDF. 
-                           // I will leave it simple.
-                         ],
+            child: Container(
+              color: const Color(0xFFF9F9F9), // Light background for list
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  // Tab 1: Lampiran Materi
+                  ListView(
+                     padding: const EdgeInsets.all(20),
+                     children: const [
+                       MaterialItem(
+                         title: "Zoom Meeting Syncronous",
+                         icon: Icons.link,
+                         isCompleted: true,
                        ),
-                     )
-                   ],
-                ),
-
-                // Tab 2: Tugas dan Kuis
-                ListView(
-                  padding: const EdgeInsets.all(16),
-                  children: const [
-                    AssignmentCard(
-                      title: "Quiz Review 01",
-                      description: "Silahkan kerjakan kuis ini dalam waktu 15 menit sebagai nilai pertama komponen kuis.",
-                      deadline: "Kerjakan sebelum hari Jum'at, 26 Februari 2021 jam 23:59 WIB.",
-                      isQuiz: true,
-                      isCompleted: true,
-                    ),
-                    AssignmentCard(
-                      title: "Tugas 01 - UID Android Mobile Game",
-                      description: "1. Buatlah desain tampilan (antarmuka) pada aplikasi mobile game FPS...",
-                      deadline: "Desain yang dibuat harus melingkupi seluruh tampilan...",
-                      isQuiz: false,
-                      isCompleted: true, // Grey checkmark in screenshot implies completed or past due? Assuming completed for now.
-                    ),
-                     AssignmentCard(
-                      title: "Kuis - Assessment 2",
-                      description: "Kerjakan assessment 2 berikut.",
-                      deadline: "Tenggat Waktu: 26 Februari 2021 23:59 WIB",
-                      isQuiz: true,
-                      isCompleted: true,
-                    ),
-                  ],
-                ),
-              ],
+                       MaterialItem(
+                         title: "Elemen-elemen Antarmuka Pengguna",
+                         icon: Icons.description_outlined,
+                         isCompleted: true,
+                       ),
+                       MaterialItem(
+                         title: "UID Guidelines and Principles",
+                         icon: Icons.description_outlined,
+                         isCompleted: true,
+                       ),
+                       MaterialItem(
+                         title: "User Profile",
+                         icon: Icons.description_outlined,
+                         isCompleted: true,
+                       ),
+                       MaterialItem(
+                         title: "Principles of User Interface DesignURL",
+                         icon: Icons.link,
+                         isCompleted: true,
+                       ),
+                     ],
+                  ),
+  
+                  // Tab 2: Tugas dan Kuis
+                  ListView(
+                    padding: const EdgeInsets.all(16),
+                    children: const [
+                      AssignmentCard(
+                        title: "Quiz Review 01",
+                        description: "Silahkan kerjakan kuis ini dalam waktu 15 menit sebagai nilai pertama komponen kuis.",
+                        deadline: "Deadline: 26 Feb 2021",
+                        isQuiz: true,
+                        isCompleted: true,
+                      ),
+                      AssignmentCard(
+                        title: "Tugas 01",
+                        description: "Buatlah desain tampilan aplikasi.",
+                        deadline: "Deadline: 28 Feb 2021",
+                        isQuiz: false,
+                        isCompleted: true, 
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -137,3 +156,4 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
     );
   }
 }
+

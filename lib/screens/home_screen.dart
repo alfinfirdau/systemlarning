@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
 import '../core/text_styles.dart';
+import 'course_detail_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -113,12 +114,20 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 10),
 
             // Course Cards
-            _buildCourseCard(
-              title: "Konsep User Interface Design",
-              code: "CSH3L3",
-              lecturer: "Dodi Wisnu Wardana",
-              progress: 0.75,
-              color: Colors.blueAccent,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CourseDetailScreen()),
+                );
+              },
+              child: _buildCourseCard(
+                title: "Konsep User Interface Design",
+                code: "CSH3L3",
+                lecturer: "Dodi Wisnu Wardana",
+                progress: 0.75,
+                color: Colors.blueAccent,
+              ),
             ),
             const SizedBox(height: 16),
             _buildCourseCard(
