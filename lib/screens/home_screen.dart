@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
                        Text("Hallo,", style: TextStyle(color: Colors.white, fontSize: 14)),
                        SizedBox(height: 4),
                        Text(
-                         "DANDY CANDRA PRATAMA", 
+                         "ALFIN FIRDAUS", 
                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)
                        ),
                      ],
@@ -128,7 +128,12 @@ class HomeScreen extends StatelessWidget {
                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        const Text("Pengumuman Terakhir", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                       TextButton(onPressed: (){}, child: const Text("Lihat Semua", style: TextStyle(fontSize: 12))),
+                       TextButton(
+                         onPressed: (){
+                           Navigator.pushNamed(context, '/announcement');
+                         }, 
+                         child: const Text("Lihat Semua", style: TextStyle(fontSize: 12))
+                       ),
                      ],
                    ),
                    const Align(

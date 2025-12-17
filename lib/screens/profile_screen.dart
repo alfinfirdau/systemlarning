@@ -10,7 +10,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  int _selectedTabIndex = 2; // 0: About Me, 1: Kelas, 2: Edit Profile
+  int _selectedTabIndex = 0; // 0: About Me, 1: Kelas, 2: Edit Profile
 
   @override
   Widget build(BuildContext context) {
@@ -73,14 +73,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           shape: BoxShape.circle,
                           color: Colors.red.shade900,
                           image: const DecorationImage(
-                            image: NetworkImage("https://via.placeholder.com/150"),
+                            image: AssetImage("assets/images/profile_pic.jpg"),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
                       const SizedBox(height: 24),
                       const Text(
-                        "DANDY CANDRA PRATAMA",
+                        "ALFIN FIRDAUS",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
