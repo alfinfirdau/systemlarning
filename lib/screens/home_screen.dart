@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
 import '../core/text_styles.dart';
 import 'course_detail_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -38,19 +39,24 @@ class HomeScreen extends StatelessWidget {
                        ),
                      ],
                    ),
-                   Container(
-                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                     decoration: BoxDecoration(
-                       color: Colors.white.withOpacity(0.2),
-                       borderRadius: BorderRadius.circular(20),
-                       border: Border.all(color: Colors.white.withOpacity(0.5)),
-                     ),
-                     child: Row(
-                       children: const [
-                          Text("MAHASISWA", style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
-                          SizedBox(width: 8),
-                          Icon(Icons.person_outline, color: Colors.white, size: 16),
-                       ],
+                   GestureDetector(
+                     onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileScreen()));
+                     },
+                     child: Container(
+                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                       decoration: BoxDecoration(
+                         color: Colors.white.withOpacity(0.2),
+                         borderRadius: BorderRadius.circular(20),
+                         border: Border.all(color: Colors.white.withOpacity(0.5)),
+                       ),
+                       child: Row(
+                         children: const [
+                            Text("MAHASISWA", style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                            SizedBox(width: 8),
+                            Icon(Icons.person_outline, color: Colors.white, size: 16),
+                         ],
+                       ),
                      ),
                    )
                 ],

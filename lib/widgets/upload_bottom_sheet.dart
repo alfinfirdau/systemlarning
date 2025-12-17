@@ -64,8 +64,8 @@ class UploadBottomSheet extends StatelessWidget {
                 
                 // Dotted Upload Area
                 DottedBorder(
-                  borderType: BorderType.RRect,
-                  radius: const Radius.circular(0), // Rectangular as per image
+                  // borderType: BorderType.RRect, // Removed to use default Rect
+                  // radius: const Radius.circular(0), // Removed
                   color: Colors.black54,
                   strokeWidth: 1,
                   dashPattern: const [6, 4],
