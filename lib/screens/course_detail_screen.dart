@@ -3,6 +3,8 @@ import '../core/app_colors.dart';
 import '../core/text_styles.dart';
 import '../widgets/assignment_card.dart';
 import '../widgets/material_item.dart';
+import 'assignment_detail_screen.dart';
+import 'video_player_screen.dart';
 
 class CourseDetailScreen extends StatefulWidget {
   const CourseDetailScreen({super.key});
@@ -123,6 +125,17 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                          title: "Principles of User Interface DesignURL",
                          icon: Icons.link,
                          isCompleted: true,
+                       ),
+                       MaterialItem(
+                         title: "Video - User Interface Design For Beginner",
+                         icon: Icons.play_circle_outline,
+                         isCompleted: false, // Red/Black play icon in screenshot implies different state? Button? will use standard
+                         onTap: () {
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const VideoPlayerScreen()),
+                          );
+                         },
                        ),
                      ],
                   ),
