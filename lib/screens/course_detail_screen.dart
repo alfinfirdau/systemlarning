@@ -71,7 +71,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                    padding: const EdgeInsets.all(20),
                    children: [
                      MaterialItem(
-                       title: "Pengantar User Interface Design",
+                       title: "Konsep User Interface Design",
                        icon: Icons.book,
                        isCompleted: false, // Not completed yet
                        onTap: () {

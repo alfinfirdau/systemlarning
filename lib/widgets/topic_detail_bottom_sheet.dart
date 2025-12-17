@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'assignment_card.dart';
 
 class TopicDetailBottomSheet extends StatefulWidget {
   const TopicDetailBottomSheet({super.key});
@@ -52,7 +53,7 @@ class _TopicDetailBottomSheetState extends State<TopicDetailBottomSheet> with Si
               children: [
                 const Center(
                   child: Text(
-                    "Pengantar User Interface Design",
+                    "Konsep User Interface Design",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -103,33 +104,23 @@ class _TopicDetailBottomSheetState extends State<TopicDetailBottomSheet> with Si
                 // Tab 1: Lampiran Materi (Placeholder)
                 const Center(child: Text("Materi content...")),
 
-                // Tab 2: Tugas dan Kuis (Empty State)
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                // Tab 2: Tugas dan Kuis (Populated)
+                ListView(
+                  padding: const EdgeInsets.all(20),
                   children: [
-                    // Illustration
-                    // Since we don't have the girl image, we'll likely use a placeholder or check asset again?
-                    // I checked assets previously and only profile_pic exists.
-                    // I'll use a large icon or network image if connection allows, but safer to use Icon + Color blobbiness to mimic?
-                    // Or standard empty illustration pattern.
-                    // The user wants "like in the image with detail".
-                    // I will try to use a standard illustration style icon.
-                    Container(
-                      width: 200,
-                      height: 200,
-                      // Placeholder for illustration
-                      child: Stack(
-                         alignment: Alignment.center,
-                         children: [
-                            Icon(Icons.person_outline, size: 100, color: Colors.orange), // Fallback
-                            // Ideally we'd use an asset. I'll just use a relevant Icon.
-                         ]
-                      ),
+                    AssignmentCard(
+                      title: "Quiz Review 01",
+                      description: "Silahkan kerjakan kuis ini dalam waktu 15 menit sebagai nilai pertama komponen kuis. Jangan lupa klik tombol Submit Answer setelah menjawab seluruh pertanyaan.",
+                      deadline: "Kerjakan sebelum hari Jum'at, 26 Februari 2021 jam 23:59 WIB.",
+                      isQuiz: true,
+                      isCompleted: true, // Green check
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      "Tidak Ada Tugas Dan Kuis Hari Ini",
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    AssignmentCard(
+                      title: "Tugas 01 - UID Android Mobile Game",
+                      description: "1. Buatlah desain tampilan (antarmuka) pada aplikasi mobile game FPS (First Person Shooter) yang akan menjadi tugas pada mata kuliah Pemrograman Aplikasi Permainan.\n2. Desain yang dibuat harus melingkupi seluruh tampilan pada aplikasi/game, dari pertama kali aplikasi ...........",
+                      deadline: "", // No specific deadline text visible in card bottom, maybe inside description or omitted
+                      isQuiz: false, // Document icon
+                      isCompleted: false, // Grey check
                     ),
                   ],
                 ),
