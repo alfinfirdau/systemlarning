@@ -240,8 +240,8 @@ class _QuizAttemptScreenState extends State<QuizAttemptScreen> {
                 else
                   ElevatedButton(
                     onPressed: () {
-                      // Handle Finish Action - for now just pop or show dialog
-                      Navigator.pop(context);
+                      // Navigate to Review Answer
+                      Navigator.pushNamed(context, '/review_answer');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF00E676), // Bright Green
