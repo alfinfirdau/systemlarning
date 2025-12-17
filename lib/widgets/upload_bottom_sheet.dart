@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
-import 'package:dotted_border/dotted_border.dart';
+
 
 class UploadBottomSheet extends StatelessWidget {
   const UploadBottomSheet({super.key});
@@ -62,25 +62,22 @@ class UploadBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 
-                // Dotted Upload Area
-                DottedBorder(
-                  // borderType: BorderType.RRect, // Removed to use default Rect
-                  // radius: const Radius.circular(0), // Removed
-                  color: Colors.black54,
-                  strokeWidth: 1,
-                  dashPattern: const [6, 4],
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black54, style: BorderStyle.solid), // Fallback to solid if dashed not available easily
+                    borderRadius: BorderRadius.circular(0),
+                  ),
                   child: Container(
                     width: double.infinity,
-                    height: 200, // Adjusted height
+                    height: 200,
                     color: Colors.transparent,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Cloud Icon
                          const Icon(
                               Icons.cloud_upload,
                               size: 80,
-                              color: Color(0xFF42A5F5), // Blue color
+                              color: Color(0xFF42A5F5),
                             ),
                         const SizedBox(height: 16),
                         const Text(

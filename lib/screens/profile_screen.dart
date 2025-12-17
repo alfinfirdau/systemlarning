@@ -2,47 +2,43 @@ import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
 import '../core/text_styles.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  int _selectedTabIndex = 0; // 0: About Me, 1: Kelas, 2: Edit Profile
+
+  @override
   Widget build(BuildContext context) {
-    // Height for the red background
     const double headerHeight = 350;
 
     return Scaffold(
       backgroundColor: Colors.white,
+      // Keep visually consistent custom bottom nav
       bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: const Color(0xFFC62828),
-        ),
+        data: Theme.of(context).copyWith(canvasColor: const Color(0xFFC62828)),
         child: BottomNavigationBar(
-          currentIndex: 0, // Just visual
+          currentIndex: 0,
           onTap: (index) {},
           backgroundColor: const Color(0xFFC62828),
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white.withOpacity(0.6),
           showUnselectedLabels: true,
           items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'Kelas Saya',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notifikasi',
-            ),
+            BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Kelas Saya'),
+            BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifikasi'),
           ],
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Stack for Header, Avatar and Floating Card
+            // Header Stack
             Stack(
               alignment: Alignment.topCenter,
               clipBehavior: Clip.none,
@@ -65,23 +61,21 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 
-                // Content Information
+                // Profile Info
                 Positioned(
                   top: 80,
                   child: Column(
                     children: [
-                      // Avatar
                       Container(
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.red.shade900, // Darker red backing
+                          color: Colors.red.shade900,
                           image: const DecorationImage(
-                            image: NetworkImage("https://via.placeholder.com/150"), // Replace with user image
+                            image: NetworkImage("https://via.placeholder.com/150"),
                             fit: BoxFit.cover,
                           ),
-                          border: Border.all(color: Colors.white, width: 0), // No visible border in image but clean edge
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -97,13 +91,13 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Floating Card
+                // Floating Tabs
                 Positioned(
-                  top: 280, // Adjust overlap
+                  top: 280,
                   left: 20,
                   right: 20,
                   child: Container(
-                    height: 80, // Height for tabs
+                    height: 80,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
@@ -118,9 +112,9 @@ class ProfileScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildTabItem("About Me", isActive: true),
-                        _buildTabItem("Kelas", isActive: false),
-                        _buildTabItem("Edit Profile", isActive: false),
+                        _buildTabItem("About Me", 0),
+                        _buildTabItem("Kelas", 1),
+                        _buildTabItem("Edit Profile", 2),
                       ],
                     ),
                   ),
@@ -128,78 +122,151 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 60), // Space for floating card overlap (350 red height vs 280 pos + 80 height)
-            // Actually: 280 + 80 = 360. 
-            // Header is 350. Stack ends at max(350, 360).
-            // We need padding for the body content below.
-            
+            const SizedBox(height: 60),
+
+            // Body Content
             Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-               child: Column(
-                 crossAxisAlignment: CrossAxisAlignment.start,
-                 children: [
-                   const Text("Informasi User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                   const SizedBox(height: 16),
-                   _buildInfoField("Email address", "dandycandra@365.telkomuniversity.ac.id"),
-                   _buildInfoField("Program Studi", "D4 Teknologi Rekayasa Multimedia"),
-                   _buildInfoField("Fakultas", "FIT"),
-                   
-                   const SizedBox(height: 24),
-                   
-                   const Text("Aktivitas Login", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                   const SizedBox(height: 16),
-                   _buildLoginInfo("First access to site", "Monday, 7 September 2020, 9:27 AM", "(288 days 12 hours)"),
-                   const SizedBox(height: 16),
-                   _buildLoginInfo("Last access to site", "Tuesday, 22 June 2021, 9:44 PM", "(now)"),
-                   
-                   const SizedBox(height: 40),
-                   
-                   // Logout Button
-                   Align(
-                     alignment: Alignment.centerRight,
-                     child: ElevatedButton.icon(
-                       onPressed: () {
-                          // Mock Logout
-                          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-                       },
-                       icon: const Icon(Icons.logout, color: Colors.white),
-                       label: const Text("Log Out", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                       style: ElevatedButton.styleFrom(
-                         backgroundColor: const Color(0xFFB71C1C),
-                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                       ),
-                     ),
-                   ),
-                   const SizedBox(height: 20),
-                 ],
-               ),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: _buildBodyContent(),
             ),
+             const SizedBox(height: 40),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTabItem(String label, {required bool isActive}) {
+  Widget _buildBodyContent() {
+    if (_selectedTabIndex == 0) {
+      return _buildAboutMe();
+    } else if (_selectedTabIndex == 1) {
+      return _buildKelas();
+    } else {
+      return const Center(child: Text("Edit Profile Content Here"));
+    }
+  }
+
+  Widget _buildAboutMe() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: isActive ? Colors.black : Colors.black54,
-          ),
-        ),
-        if (isActive) 
-          Container(
-            margin: const EdgeInsets.top(4),
-            width: 30,
-            height: 3,
-            color: Colors.grey,
-          )
+        const Text("Informasi User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 16),
+        _buildInfoField("Email address", "dandycandra@365.telkomuniversity.ac.id"),
+        _buildInfoField("Program Studi", "D4 Teknologi Rekayasa Multimedia"),
+        _buildInfoField("Fakultas", "FIT"),
+        
+        const SizedBox(height: 24),
+        
+        const Text("Aktivitas Login", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 16),
+        _buildLoginInfo("First access to site", "Monday, 7 September 2020, 9:27 AM", "(288 days 12 hours)"),
+        const SizedBox(height: 16),
+        _buildLoginInfo("Last access to site", "Tuesday, 22 June 2021, 9:44 PM", "(now)"),
+        
+         const SizedBox(height: 40),
+         // Logout
+         Align(
+           alignment: Alignment.centerRight,
+           child: ElevatedButton.icon(
+             onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+             },
+             icon: const Icon(Icons.logout, color: Colors.white),
+             label: const Text("Log Out", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+             style: ElevatedButton.styleFrom(
+               backgroundColor: const Color(0xFFB71C1C),
+               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+             ),
+           ),
+         ),
       ],
+    );
+  }
+
+  Widget _buildKelas() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildClassItem("BAHASA INGGRIS: BUSINESS AND SCIENTIFIC", "D4SM-41-GAB1 [ARS]", "Monday, 8 February 2021"),
+        _buildClassItem("DESAIN ANTARMUKA & PENGALAMAN PENGGUNA", "D4SM-42-03 [ADY]", "Monday, 8 February 2021"),
+        _buildClassItem("KEWARGANEGARAAN", "D4SM-41-GAB1 [BBO]. JUMAT 2", "Monday, 8 February 2021"),
+        _buildClassItem("OLAH RAGA D3TT-44-02 [EYR]", "", "Monday, 8 February 2021"),
+        _buildClassItem("PEMROGRAMAN MULTIMEDIA INTERAKTIF", "D4SM-43-04 [TPR]", "Monday, 8 February 2021"),
+        _buildClassItem("PEMROGRAMAN PERANGKAT BERGERAK MULTIMEDIA", "D4SM-41-GAB1 [APJ]", "Monday, 8 February 2021"),
+        _buildClassItem("SISTEM OPERASI D4SM-44-02 [DDS]", "", "Monday, 8 February 2021"),
+      ],
+    );
+  }
+
+  Widget _buildClassItem(String title, String code, String date) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Blue Icon
+          Container(
+            width: 60,
+            height: 35, // Rounded pill shape
+            decoration: BoxDecoration(
+              color: const Color(0xFF81B4D9), // Light Blue
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title, 
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.black87),
+                ),
+                if (code.isNotEmpty) ...[
+                   const SizedBox(height: 4),
+                   Text(code, style: const TextStyle(fontSize: 13, color: Colors.black87)),
+                ],
+                const SizedBox(height: 4),
+                Text("Tanggal Mulai $date", style: const TextStyle(fontSize: 12, color: Colors.grey)),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabItem(String label, int index) {
+    final bool isActive = _selectedTabIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedTabIndex = index;
+        });
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: isActive ? Colors.black : Colors.black54,
+            ),
+          ),
+          if (isActive)
+            Container(
+              margin: const EdgeInsets.top(4),
+              width: 30,
+              height: 3,
+              color: Colors.grey,
+            )
+          else
+            const SizedBox(height: 7), // Placeholder to keep height consistent
+        ],
+      ),
     );
   }
 
