@@ -9,6 +9,7 @@ import 'screens/announcement_detail_screen.dart';
 import 'screens/quiz_review_screen.dart';
 import 'screens/quiz_attempt_screen.dart';
 import 'screens/review_answer_screen.dart';
+import 'screens/material_slide_screen.dart';
 import 'core/app_colors.dart';
 
 void main() {
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/quiz_review': (context) => const QuizReviewScreen(),
         '/quiz_attempt': (context) => const QuizAttemptScreen(),
         '/review_answer': (context) => const ReviewAnswerScreen(),
+        '/material_slide': (context) => const MaterialSlideScreen(),
       },
     );
   }

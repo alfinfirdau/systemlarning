@@ -49,14 +49,17 @@ class AnnouncementScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         children: [
           _buildAnnouncementItem(
+            context,
             title: "Maintenance Pra UAS Semester Genap 2020/2021",
             subtitle: "By Admin Celoe - Rabu, 2 Juni 2021, 10:45",
           ),
           _buildAnnouncementItem(
+            context,
             title: "Pengumuman Maintance",
             subtitle: "By Admin Celoe - Senin, 11 Januari 2021, 7:52",
           ),
           _buildAnnouncementItem(
+            context,
             title: "Maintenance Pra UAS Semeter Ganjil 2020/2021",
             subtitle: "By Admin Celoe - Minggu, 10 Januari 2021, 9:30",
           ),
@@ -65,7 +68,8 @@ class AnnouncementScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAnnouncementItem({
+  Widget _buildAnnouncementItem(
+    BuildContext context, {
     required String title,
     required String subtitle,
   }) {

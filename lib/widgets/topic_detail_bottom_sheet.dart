@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'assignment_card.dart';
+import 'material_item.dart';
 
 class TopicDetailBottomSheet extends StatefulWidget {
   const TopicDetailBottomSheet({super.key});
@@ -101,8 +102,20 @@ class _TopicDetailBottomSheetState extends State<TopicDetailBottomSheet> with Si
             child: TabBarView(
               controller: _tabController,
               children: [
-                // Tab 1: Lampiran Materi (Placeholder)
-                const Center(child: Text("Materi content...")),
+                // Tab 1: Lampiran Materi
+                ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                    MaterialItem(
+                      title: "Slide Presentasi (PDF)",
+                      icon: Icons.picture_as_pdf,
+                      isCompleted: true,
+                      onTap: () {
+                         Navigator.pushNamed(context, '/material_slide');
+                      },
+                    ),
+                  ],
+                ),
 
                 // Tab 2: Tugas dan Kuis (Populated)
                 ListView(
