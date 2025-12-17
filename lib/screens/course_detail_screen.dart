@@ -100,7 +100,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                   // Tab 1: Lampiran Materi
                   ListView(
                      padding: const EdgeInsets.all(20),
-                     children: const [
+                     children: [
                        MaterialItem(
                          title: "Zoom Meeting Syncronous",
                          icon: Icons.link,

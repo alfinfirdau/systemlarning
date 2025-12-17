@@ -258,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           if (isActive)
             Container(
-              margin: const EdgeInsets.top(4),
+              margin: const EdgeInsets.only(top: 4),
               width: 30,
               height: 3,
               color: Colors.grey,
