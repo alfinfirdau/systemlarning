@@ -8,6 +8,7 @@ class AssignmentCard extends StatelessWidget {
   final String deadline;
   final bool isCompleted;
   final bool isQuiz; // true for Quiz icon, false for Assignment icon
+  final VoidCallback? onTap;
 
   const AssignmentCard({
     super.key,
@@ -16,11 +17,14 @@ class AssignmentCard extends StatelessWidget {
     required this.deadline,
     this.isCompleted = false,
     this.isQuiz = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -92,6 +96,7 @@ class AssignmentCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

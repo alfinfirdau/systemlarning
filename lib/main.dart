@@ -6,6 +6,7 @@ import 'screens/splash_screen.dart';
 import 'screens/notification_screen.dart';
 import 'screens/announcement_screen.dart';
 import 'screens/announcement_detail_screen.dart';
+import 'screens/quiz_review_screen.dart';
 import 'core/app_colors.dart';
 
 void main() {
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/notifications': (context) => const NotificationScreen(),
         '/announcement': (context) => const AnnouncementScreen(),
         '/announcement_detail': (context) => const AnnouncementDetailScreen(),
+        '/quiz_review': (context) => const QuizReviewScreen(),
       },
     );
   }

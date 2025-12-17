@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../core/app_colors.dart';
 import 'course_detail_screen.dart';
 import 'home_screen.dart';
+import 'my_classes_screen.dart';
 
 class MainEntryScreen extends StatefulWidget {
   const MainEntryScreen({super.key});
@@ -15,7 +16,7 @@ class _MainEntryScreenState extends State<MainEntryScreen> {
 
   final List<Widget> _pages = [
     const HomeScreen(), // Home
-    const CourseDetailScreen(), // Kelas Saya
+    const MyClassesScreen(), // Kelas Saya
     const Center(child: Text("Notifikasi Placeholder")), // Notifikasi
   ];
 

@@ -150,6 +150,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> with SingleTick
                         deadline: "Deadline: 26 Feb 2021",
                         isQuiz: true,
                         isCompleted: true,
+                        onTap: () {
+                          Navigator.pushNamed(context, '/quiz_review');
+                        },
                       ),
                       AssignmentCard(
                         title: "Tugas 01",
