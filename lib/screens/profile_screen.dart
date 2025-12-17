@@ -10,7 +10,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  int _selectedTabIndex = 0; // 0: About Me, 1: Kelas, 2: Edit Profile
+  int _selectedTabIndex = 2; // 0: About Me, 1: Kelas, 2: Edit Profile
 
   @override
   Widget build(BuildContext context) {
@@ -142,8 +142,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else if (_selectedTabIndex == 1) {
       return _buildKelas();
     } else {
-      return const Center(child: Text("Edit Profile Content Here"));
+      return _buildEditProfile();
     }
+  }
+
+  Widget _buildEditProfile() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTextField("Nama Pertama"),
+        const SizedBox(height: 16),
+        _buildTextField("Nama Terakhir"),
+        const SizedBox(height: 16),
+        _buildTextField("E-mail Address"),
+        const SizedBox(height: 16),
+        _buildTextField("Negara"),
+        const SizedBox(height: 16),
+        _buildTextField("Deskripsi", maxLines: 5),
+        const SizedBox(height: 24),
+        Align(
+          alignment: Alignment.centerRight,
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFF5F5F5),
+              foregroundColor: Colors.black,
+              elevation: 1,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text(
+              "Simpan",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTextField(String label, {int maxLines = 1}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          maxLines: maxLines,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.black54),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _buildAboutMe() {
