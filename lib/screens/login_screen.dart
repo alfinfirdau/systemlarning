@@ -15,12 +15,16 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordVisible = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
   bool _isLoading = false;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
     super.dispose();
   }
 
@@ -31,6 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       return;
     }
+
+    // Unfocus before potential navigation or state change
+    FocusManager.instance.primaryFocus?.unfocus();
 
     setState(() {
       _isLoading = true;
@@ -74,40 +81,26 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> handleDemoLogin() async {
-    const String demoEmail = "demo@sistemlearning.com";
-    const String demoPassword = "demo123456";
+    // Unfocus before major UI change
+    FocusManager.instance.primaryFocus?.unfocus();
 
-    // 1. Isi field input
-    _emailController.text = demoEmail;
-    _passwordController.text = demoPassword;
+    // 1. Isi field input (Auto-fill)
+    _emailController.text = "admin@lms.com";
+    _passwordController.text = "admin123";
 
-    try {
-      // 2. Coba Login terlebih dahulu
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: demoEmail,
-        password: demoPassword,
-      );
+    setState(() {
+      _isLoading = true;
+    });
 
-      // Berhasil login, arahkan ke Home
+    // Simulasi loading sebentar agar terasa seperti proses asli
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+      // Langsung pindah ke halaman Home tanpa cek Firebase (Bypass)
       _navigateToHome();
-    } on FirebaseAuthException catch (e) {
-      // 3. Jika akun tidak ditemukan, lakukan pendaftaran otomatis
-      if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
-        try {
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: demoEmail,
-            password: demoPassword,
-          );
-
-          // Berhasil daftar & otomatis login, arahkan ke Home
-          _navigateToHome();
-        } catch (createError) {
-          _showError("Gagal membuat akun demo: ${createError.toString()}");
-        }
-      } else {
-        // Tangani error lain (misal: password salah jika sudah pernah diubah di console)
-        _handleFirebaseError(e);
-      }
     }
   }
 
@@ -225,6 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextField(
                     controller: _emailController,
+                    focusNode: _emailFocusNode,
                     decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.brown, width: 2),
@@ -276,6 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextField(
                     controller: _passwordController,
+                    focusNode: _passwordFocusNode,
                     obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
                       enabledBorder: const UnderlineInputBorder(
@@ -335,6 +330,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: TextButton(
                       onPressed: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         Navigator.pushNamed(context, '/register');
                       },
                       child: const Text(
