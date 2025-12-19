@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "695065191598",
+    "project_id": "sistemlearning-3f7ae",
+    "storage_bucket": "sistemlearning-3f7ae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695065191598:android:768e567a18c4ec312bb93f",
+        "android_client_info": {
+          "package_name": "com.example.sistemlearning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdkGdVU3UctQAcesPpFcNnKMnlIE8wnL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

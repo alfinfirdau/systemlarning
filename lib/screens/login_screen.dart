@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../core/app_colors.dart';
 import '../widgets/login_help_bottom_sheet.dart';
 
@@ -36,13 +37,20 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
+      // 3. Proses di Server Firebase
+      // Validasi Kredensial: Firebase checks email and password against database
+      // Pengecekan Status: Ensures account is active
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
 
+      // 4. Respons dan Manajemen Sesi
+      // Berhasil: Firebase returns UserCredential, token stored locally
+      // 5. Pengalihan Halaman (Navigation)
       Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
+      // Gagal: Firebase returns error code
       String message = "Login failed";
       if (e.code == 'user-not-found') {
         message = 'No user found for that email.';
@@ -65,6 +73,75 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<void> handleDemoLogin() async {
+    const String demoEmail = "demo@sistemlearning.com";
+    const String demoPassword = "demo123456";
+
+    // 1. Isi field input
+    _emailController.text = demoEmail;
+    _passwordController.text = demoPassword;
+
+    try {
+      // 2. Coba Login terlebih dahulu
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: demoEmail,
+        password: demoPassword,
+      );
+
+      // Berhasil login, arahkan ke Home
+      _navigateToHome();
+    } on FirebaseAuthException catch (e) {
+      // 3. Jika akun tidak ditemukan, lakukan pendaftaran otomatis
+      if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
+        try {
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: demoEmail,
+            password: demoPassword,
+          );
+
+          // Berhasil daftar & otomatis login, arahkan ke Home
+          _navigateToHome();
+        } catch (createError) {
+          _showError("Gagal membuat akun demo: ${createError.toString()}");
+        }
+      } else {
+        // Tangani error lain (misal: password salah jika sudah pernah diubah di console)
+        _handleFirebaseError(e);
+      }
+    }
+  }
+
+  // Fungsi pembantu untuk navigasi
+  void _navigateToHome() {
+    Navigator.pushReplacementNamed(context, '/home');
+  }
+
+  // Fungsi pembantu untuk pesan error
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: Colors.red),
+    );
+  }
+
+  // Fungsi pembantu untuk handle Firebase error
+  void _handleFirebaseError(FirebaseAuthException e) {
+    String message = "";
+    switch (e.code) {
+      case 'wrong-password':
+        message = "Password akun demo salah.";
+        break;
+      case 'user-disabled':
+        message = "Akun demo ini telah dinonaktifkan.";
+        break;
+      case 'network-request-failed':
+        message = "Periksa koneksi internet Anda.";
+        break;
+      default:
+        message = "Terjadi kesalahan: ${e.message}";
+    }
+    _showError(message);
+  }
+
   @override
   Widget build(BuildContext context) {
     // Height of the screen
@@ -85,13 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: screenHeight * 0.35,
                     width: double.infinity,
                     decoration: const BoxDecoration(
-                      color: AppColors.lightGrey, // Placeholder color
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          'https://via.placeholder.com/800x600', // Placeholder image
-                        ),
-                        fit: BoxFit.cover,
-                      ),
+                      color: AppColors.primaryRed, // Use solid color instead of network image to avoid CORS issues
                     ),
                     // If you have a local asset, swap NetworkImage with AssetImage
                     // child: Image.asset('assets/images/building.jpg', fit: BoxFit.cover),
@@ -162,6 +233,33 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderSide: BorderSide(color: AppColors.primaryRed, width: 2),
                       ),
                       contentPadding: EdgeInsets.symmetric(vertical: 8),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Demo Login Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: OutlinedButton(
+                      onPressed: _isLoading ? null : handleDemoLogin,
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.primaryRed, width: 2),
+                        foregroundColor: AppColors.primaryRed,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: AppColors.primaryRed)
+                          : const Text(
+                              "Demo Login",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
 
