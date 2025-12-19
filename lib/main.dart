@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'screens/login_info_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/registration_screen.dart';
 import 'screens/main_entry.dart';
 import 'screens/splash_screen.dart';
 import 'screens/notification_screen.dart';
@@ -12,7 +14,9 @@ import 'screens/review_answer_screen.dart';
 import 'screens/material_slide_screen.dart';
 import 'core/app_colors.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -36,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginInfoScreen(),
         '/home': (context) => const MainEntryScreen(),
         '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegistrationScreen(),
         '/notifications': (context) => const NotificationScreen(),
         '/announcement': (context) => const AnnouncementScreen(),
         '/announcement_detail': (context) => const AnnouncementDetailScreen(),

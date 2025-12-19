@@ -1,32 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../core/app_colors.dart';
-import '../widgets/login_help_bottom_sheet.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegistrationScreen extends StatefulWidget {
+  const RegistrationScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isPasswordVisible = false;
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  Future<void> _login() async {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+  Future<void> _register() async {
+    if (_usernameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter email and password")),
+        const SnackBar(content: Text("Please fill in all fields")),
+      );
+      return;
+    }
+
+    if (_passwordController.text.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Password must be at least 8 characters")),
       );
       return;
     }
@@ -36,18 +47,35 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      // Create user with Firebase Auth
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
 
-      Navigator.pushReplacementNamed(context, '/home');
+      // Store additional data in Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
+        'username': _usernameController.text.trim(),
+        'email': _emailController.text.trim(),
+        'created_at': Timestamp.now(),
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Registration successful! Please login.")),
+      );
+
+      // Navigate back to login
+      Navigator.pushReplacementNamed(context, '/login');
     } on FirebaseAuthException catch (e) {
-      String message = "Login failed";
-      if (e.code == 'user-not-found') {
-        message = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        message = 'Wrong password provided.';
+      String message = "Registration failed";
+      if (e.code == 'weak-password') {
+        message = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'The account already exists for that email.';
       } else if (e.code == 'invalid-email') {
         message = 'The email address is not valid.';
       }
@@ -67,7 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Height of the screen
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -75,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Top Section with Image and Curve
+            // Top Section with Image and Curve (same as login)
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -85,21 +112,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: screenHeight * 0.35,
                     width: double.infinity,
                     decoration: const BoxDecoration(
-                      color: AppColors.lightGrey, // Placeholder color
+                      color: AppColors.lightGrey,
                       image: DecorationImage(
                         image: NetworkImage(
-                          'https://via.placeholder.com/800x600', // Placeholder image
+                          'https://via.placeholder.com/800x600',
                         ),
                         fit: BoxFit.cover,
                       ),
                     ),
-                    // If you have a local asset, swap NetworkImage with AssetImage
-                    // child: Image.asset('assets/images/building.jpg', fit: BoxFit.cover),
                   ),
                 ),
-                // Logo overlapping
                 Transform.translate(
-                  offset: const Offset(0, 40), // Push down by 40
+                  offset: const Offset(0, 40),
                   child: Container(
                     padding: const EdgeInsets.all(4),
                     decoration: const BoxDecoration(
@@ -113,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: AppColors.primaryRed,
                         shape: BoxShape.circle,
                       ),
-                      // Using a placeholder icon related to education/university
                       child: const Icon(
                         Icons.school,
                         color: Colors.white,
@@ -125,16 +148,16 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
 
-            const SizedBox(height: 60), // Space for the overlapping logo
+            const SizedBox(height: 60),
 
-            // Login Form
+            // Registration Form
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Login",
+                    "Register",
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -142,6 +165,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
+
+                  // Username
+                  const Text(
+                    "Username",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.brown, width: 2),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.primaryRed, width: 2),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 8),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
 
                   // Email
                   const Text(
@@ -154,6 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextField(
                     controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.brown, width: 2),
@@ -205,12 +253,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 48),
 
-                  // Login Button
+                  // Register Button
                   SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: _isLoading ? null : _login,
+                      onPressed: _isLoading ? null : _register,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryRed,
                         foregroundColor: Colors.white,
@@ -222,7 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: _isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
                           : const Text(
-                              "Log In",
+                              "Register",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -233,37 +281,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 24),
 
-                  // Register Link
+                  // Back to Login
                   Center(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/register');
+                        Navigator.pushReplacementNamed(context, '/login');
                       },
                       child: const Text(
-                        "Don't have an account? Register",
-                        style: TextStyle(
-                          color: Colors.brown,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Help Text
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                          ),
-                          builder: (context) => const LoginHelpBottomSheet(),
-                        );
-                      },
-                      child: const Text(
-                        "Bantuan ?",
+                        "Already have an account? Login",
                         style: TextStyle(
                           color: Colors.brown,
                           fontSize: 14,
@@ -274,9 +299,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            
+
             // Bottom Wave
-             SizedBox(
+            SizedBox(
               height: 120,
               width: double.infinity,
               child: CustomPaint(
@@ -290,22 +315,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-
 class HeaderCurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
     path.lineTo(0, size.height - 50);
-    
-    // Create a quadratic bezier curve
-    // Control point is slightly outside the center to make it asymmetrical if needed, 
-    // but the design looks fairly symmetrical or slightly tilted.
-    // Let's make a standard concave arc.
+
     path.quadraticBezierTo(
-      size.width / 2, size.height + 20, // Control point below the line
-      size.width, size.height - 80, // End point
+      size.width / 2, size.height + 20,
+      size.width, size.height - 80,
     );
-    
+
     path.lineTo(size.width, 0);
     path.close();
     return path;
@@ -319,20 +339,17 @@ class BottomWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = const Color(0xFFB74C4C) // A brownish-red, matching the bottom wave
+      ..color = const Color(0xFFB74C4C)
       ..style = PaintingStyle.fill;
-      // You might want to grab this color from AppColors if added, otherwise hardcoded for now 
-      // based on the image which looks like a lighter/desaturated red.
 
     Path path = Path();
-    path.moveTo(0, size.height); 
-    path.lineTo(0, size.height * 0.4); 
+    path.moveTo(0, size.height);
+    path.lineTo(0, size.height * 0.4);
 
-    // Wave curve
     path.cubicTo(
-      size.width * 0.3, -20, // Control point 1 (up)
-      size.width * 0.6, size.height + 20, // Control point 2 (down)
-      size.width, size.height * 0.5, // End point
+      size.width * 0.3, -20,
+      size.width * 0.6, size.height + 20,
+      size.width, size.height * 0.5,
     );
 
     path.lineTo(size.width, size.height);
