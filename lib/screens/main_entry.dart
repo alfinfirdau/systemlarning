@@ -4,8 +4,6 @@ import 'course_detail_screen.dart';
 import 'home_screen.dart';
 import 'my_classes_screen.dart';
 
-import 'notification_screen.dart';
-
 class MainEntryScreen extends StatefulWidget {
   const MainEntryScreen({super.key});
 
@@ -19,7 +17,7 @@ class _MainEntryScreenState extends State<MainEntryScreen> {
   final List<Widget> _pages = [
     const HomeScreen(), // Home
     const MyClassesScreen(), // Kelas Saya
-    const NotificationScreen(), // Notifikasi
+    const Center(child: Text("Notifikasi Placeholder")), // Notifikasi
   ];
 
   @override
