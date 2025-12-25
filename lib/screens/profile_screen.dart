@@ -224,8 +224,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         const Text("Informasi User", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(height: 16),
-        _buildInfoField("Email address", "dandycandra@365.telkomuniversity.ac.id"),
-        _buildInfoField("Program Studi", "D4 Teknologi Rekayasa Multimedia"),
+        _buildInfoField("Email address", "alfinfirdaus@gmail.com"),
+        _buildInfoField("Program Studi", "Teknik Informatika"),
         _buildInfoField("Fakultas", "FIT"),
         
         const SizedBox(height: 24),
