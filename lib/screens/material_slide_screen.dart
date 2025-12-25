@@ -69,46 +69,106 @@ class _MaterialSlideScreenState extends State<MaterialSlideScreen> {
 
   // Slide 1: Title Slide
   Widget _buildSlide1() {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-           // Logo Placeholder
-           Container(
-             height: 100,
-             alignment: Alignment.center,
-             child: Column(
-               children: [
-                 Icon(Icons.school, size: 60, color: Colors.grey[700]), // Mimic logo
-                 Text("Universitas\nTelkom", textAlign: TextAlign.center, style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 18))
-               ],
-             )
-           ),
-           const SizedBox(height: 40),
-           
-           Container(
-             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-             decoration: BoxDecoration(
-               color: Colors.black87,
-               border: Border(
-                 left: BorderSide(color: Colors.red.shade900, width: 4)
-               )
-             ),
-             width: double.infinity,
-             child: const Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                 Text("Pengantar Desain", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.normal)),
-                 Text("Antarmuka Pengguna", style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
-                 SizedBox(height: 12),
-                 Text("UI/UX", style: TextStyle(color: Colors.red, fontSize: 12)),
-                 Text("UI / UX Design", style: TextStyle(color: Colors.red, fontSize: 12)),
-               ],
+    return Column(
+      children: [
+        // Top Red Header Section with Title
+        Container(
+          width: double.infinity,
+          height: 120, // Approximate height
+          color: const Color(0xFFC62828), // Deep Red
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+           child: Align(
+             alignment: Alignment.bottomLeft,
+             child: Text(
+              "Pengantar User Interface Design",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
              ),
            ),
-        ],
-      ),
+        ),
+        
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Logo Section
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                         // Placeholder for Logo - In real app use Image.asset
+                         Icon(Icons.school, size: 80, color: Colors.grey[700]), 
+                         const Text(
+                           "Universitas", 
+                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87)
+                         ),
+                         const Text(
+                           "Telkom", 
+                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black87)
+                         ),
+                      ],
+                    )
+                  ],
+                ),
+                
+                const Spacer(),
+                
+                // Title Box
+                Container(
+                   width: double.infinity,
+                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+                   decoration: BoxDecoration(
+                     color: const Color(0xFF424242), // Dark Grey
+                     border: Border(
+                       left: BorderSide(color: Colors.white.withOpacity(0.5), width: 1), // Thin accent
+                     ),
+                   ),
+                   child: Row(
+                     children: [
+                       Expanded(
+                         child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: const [
+                             Text(
+                               "Pengantar Desain",
+                               style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.normal),
+                             ),
+                             Text(
+                               "Antarmuka Pengguna",
+                               style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                             ),
+                           ],
+                         ),
+                       ),
+                       Container(
+                         height: 50,
+                         width: 1,
+                         color: Colors.grey,
+                         margin: const EdgeInsets.symmetric(horizontal: 16),
+                       ),
+                       Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                            Text("MIG20", style: TextStyle(color: Colors.red.shade700, fontWeight: FontWeight.bold)),
+                            Text("UI / UX Design", style: TextStyle(color: Colors.red.shade700, fontSize: 12)),
+                         ],
+                       )
+                     ],
+                   ),
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
   
@@ -118,42 +178,50 @@ class _MaterialSlideScreenState extends State<MaterialSlideScreen> {
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Perkenalan", style: TextStyle(fontSize: 28, fontWeight: FontWeight.normal)),
+            const Center(child: Text("Perkenalan", style: TextStyle(fontSize: 28, fontWeight: FontWeight.normal))),
             const SizedBox(height: 40),
             
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Avatar
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey,
-                  backgroundImage: const AssetImage('assets/images/profile_pic.jpg'), // Reusing asset
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/profile_pic.jpg'), // Ensure this asset exists or use placeholder
+                      fit: BoxFit.cover,
+                    ),
+                    border: Border.all(color: Colors.grey.shade300, width: 2),
+                  ),
                 ),
                 const SizedBox(width: 20),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
-                       Text("• Ady Purna Kurniawan -> ADY", style: TextStyle(fontSize: 14)),
+                       Text("• Ady Purna Kurniawan -> ADY", style: TextStyle(fontSize: 14, height: 1.5)),
                        SizedBox(height: 8),
-                       Text("• E-mail:\n  adypurnakurniawan@telkomuniversity.ac.id", style: TextStyle(fontSize: 14)),
+                       Text("• E-mail:\n  adypurnakurniawan@telkomuniversity.ac.id", style: TextStyle(fontSize: 14, height: 1.5)),
                        SizedBox(height: 8),
-                       Text("• Bidang Keahlian:", style: TextStyle(fontSize: 14)),
+                       Text("• Bidang Keahlian:", style: TextStyle(fontSize: 14, height: 1.5)),
                        Padding(
                          padding: EdgeInsets.only(left: 16.0),
                          child: Column(
                            crossAxisAlignment: CrossAxisAlignment.start,
                            children: [
-                             Text("- Information System"),
-                             Text("- Web Programming and Design"),
-                             Text("- Game Development"),
+                             Text("- Information System", style: TextStyle(height: 1.5)),
+                             Text("- Web Programming and Design", style: TextStyle(height: 1.5)),
+                             Text("- Game Development", style: TextStyle(height: 1.5)),
                            ],
                          ),
                        ),
                        SizedBox(height: 8),
-                       Text("• No.HP: 085727930642 ->\n  SMS/Telp/Whatsapp", style: TextStyle(fontSize: 14)),
+                       Text("• No.HP: 085727930642 ->\n  SMS/Telp/Whatsapp", style: TextStyle(fontSize: 14, height: 1.5)),
                     ],
                   ),
                 ),
